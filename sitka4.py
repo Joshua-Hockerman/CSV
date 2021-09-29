@@ -2,13 +2,13 @@ import csv
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-open_file = open("sitka_weather_2018_simple.csv", "r")
+open_file = open("death_valley_2018_simple.csv", "r")
 
 csv_file = csv.reader(open_file, delimiter=",")
 
 header_row = next(csv_file)
 
-print(type(header_row))
+# print(type(header_row))
 
 for index, column_header in enumerate(header_row):
     print(index, column_header)
@@ -25,13 +25,20 @@ lows = []
 
 
 for rec in csv_file:
-    highs.append(int(rec[5]))
-    lows.append(int(rec[6]))
-    dates.append(datetime.strptime(rec[2], "%Y-%m-%d"))
+    try:
+        date = datetime.strptime(rec[2], "%Y-%m-%d")
+        high = int(rec[4])
+        low = int(rec[5])
+    except ValueError:
+        print(f"Missing Data for {date}")
+    else:
+        highs.append(high)
+        lows.append(low)
+        dates.append(date)
 
-print(highs)
-print(lows)
-print(dates)
+# print(highs)
+# print(lows)
+# print(dates)
 
 fig = plt.figure()
 
@@ -54,6 +61,6 @@ plt.subplot(2, 1, 2)
 plt.plot(dates, lows, c="blue")
 plt.title("Lows")
 
-plt.suptitle("Highs and Lows of Sitka, Alaska")
+plt.suptitle("Highs and Lows of Death Valley, CA")
 
 plt.show()
