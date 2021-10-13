@@ -14,7 +14,8 @@ for index, column_header in enumerate(header_row):
 highs = []
 
 for rec in csv_file:
-    highs.append(int(rec[5]))
+    if header_row == "TMAX":
+        highs.append(int([rec]))
 
 print(highs)
 
